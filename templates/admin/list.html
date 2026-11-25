@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ E.label }}{% endblock %}
+{% block body %}
+<div class="titlebar"><h1>{{ E.label }}</h1><a class="btn sm" href="{{ url_for('admin_edit', ent=ent) }}">Add {{ E.singular }}</a></div>
+<p class="muted">{{ E.intro }}</p>
+{% if rows %}
+<div class="panel tablewrap"><table>
+  <thead><tr>{% if E.thumb %}<th></th>{% endif %}{% for f, label in E.cols %}<th>{{ label }}</th>{% endfor %}<th>Status</th><th class="r">Actions</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+  <tr{% if not r.published %} class="off"{% endif %}>
+    {% if E.thumb %}<td>{% if r.thumb %}<img class="mini" src="{{ r.thumb|upl }}" alt="">{% else %}<span class="mini" style="background:{{ r.color }}"></span>{% endif %}</td>{% endif %}
+    {% for f, label in E.cols %}<td>{% if f in choices %}{{ choices[f].get(r[f], r[f]) }}{% else %}{{ r[f]|clip(70) }}{% endif %}</td>{% endfor %}
+    <td>{% if r.published %}<span class="pill live">Showing</span>{% else %}<span class="pill closed">Hidden</span>{% endif %}{% if r.is_sample is defined and r.is_sample %} <span class="pill new">Placeholder</span>{% endif %}</td>
+    <td class="r"><div class="actions">
+      <form method="post" action="{{ url_for('admin_move', ent=ent, item_id=r.id) }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="ib" name="dir" value="up" aria-label="Move up" title="Move up">↑</button><button class="ib" name="dir" value="down" aria-label="Move down" title="Move down">↓</button></form>
+      <a class="btn ghost sm" href="{{ url_for('admin_edit', ent=ent, item_id=r.id) }}">Edit</a>
+      <form method="post" action="{{ url_for('admin_toggle', ent=ent, item_id=r.id) }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn ghost sm" type="submit">{{ 'Hide' if r.published else 'Show' }}</button></form>
+      <form method="post" action="{{ url_for('admin_delete', ent=ent, item_id=r.id) }}" data-confirm="Delete this {{ E.singular }}? This can’t be undone."><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn danger sm" type="submit">Delete</button></form>
+    </div></td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% else %}<div class="panel"><p class="muted">Nothing here yet. Add your first {{ E.singular }}.</p></div>{% endif %}
+{% endblock %}

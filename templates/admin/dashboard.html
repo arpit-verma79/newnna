@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<h1>Dashboard</h1>
+{% if no_wa %}<div class="flash warn">WhatsApp number isn’t set yet, so WhatsApp buttons on the website open the Contact page instead. <a href="{{ url_for('admin_settings') }}">Add it in Settings</a>.</div>{% endif %}
+{% if samples %}<div class="flash warn">{{ samples }} placeholder item{{ '' if samples == 1 else 's' }} (work, reviews or projects) {{ 'is' if samples == 1 else 'are' }} still showing on the website. Replace them with real ones, or hide or delete them.</div>{% endif %}
+<div class="stats">
+  <a class="stat" href="{{ url_for('admin_enquiries', status='new') }}"><b>{{ counts.get('new', 0) }}</b><span>New enquiries</span></a>
+  <a class="stat" href="{{ url_for('admin_enquiries', status='contacted') }}"><b>{{ counts.get('contacted', 0) }}</b><span>Contacted</span></a>
+  <a class="stat" href="{{ url_for('admin_enquiries') }}"><b>{{ total }}</b><span>All enquiries</span></a>
+</div>
+<section class="panel">
+  <div class="panel-h"><h2>Latest enquiries</h2><a href="{{ url_for('admin_enquiries') }}">See all</a></div>
+  {% if recent %}
+  <ul class="plain">{% for r in recent %}<li><div><b>{{ r.name }}</b> <span class="pill {{ r.status }}">{{ r.status }}</span><div class="muted">{{ r.service }} · {{ r.created_at|ago }}</div><div>{{ r.message|clip(110) }}</div></div><a class="btn sm" href="{{ customer_wa(r.phone, r.name) }}" target="_blank" rel="noopener">WhatsApp</a></li>{% endfor %}</ul>
+  {% else %}<p class="muted">No enquiries yet. They’ll appear here when someone fills in the form on the Contact page.</p>{% endif %}
+</section>
+<section class="panel">
+  <div class="panel-h"><h2>Your content</h2></div>
+  <div class="chips">{% for label, n in sizes.items() %}<span class="chipx">{{ label }}: {{ n }}</span>{% endfor %}</div>
+</section>
+{% endblock %}

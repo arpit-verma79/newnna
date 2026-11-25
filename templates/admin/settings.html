@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% from "admin/_fields.html" import field %}
+{% block title %}Settings{% endblock %}
+{% block body %}
+<h1>Settings</h1>
+<p class="muted">Contact details used across the whole website.</p>
+<form class="panel narrow" method="post">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  {% for f in fields %}{{ field(f, values[f.name], errors.get(f.name)) }}{% endfor %}
+  <div class="actions"><button class="btn" type="submit">Save settings</button></div>
+</form>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_m.html" import package_card, page_head, cta_band with context %}
+{% block title %}Websites for Local Businesses | Bansuri Studio{% endblock %}
+{% block desc %}Fast, mobile-friendly websites with WhatsApp and enquiry forms for local businesses in Pilibhit.{% endblock %}
+{% block main %}
+{{ page_head('Websites That Work for Your Business', 'A professional online presence so customers can find you, trust you and contact you in one tap.') }}
+<section><div class="wrap">
+  <div class="feat rv"><div>Business websites</div><div>Portfolio websites</div><div>Landing pages</div><div>Mobile friendly designs</div><div>Contact and WhatsApp integration</div></div>
+</div></section>
+
+{% if projects %}
+<section style="background:var(--surface)"><div class="wrap">
+  <div class="sec-head rv"><h2>Websites We’ve Created</h2><p>Recent website projects.</p></div>
+  <div class="grid">
+    {% for p in projects %}
+    <div class="card rv">
+      <div class="shot{% if p.thumb %} has-img{% endif %}" style="--c:{{ p.color }}">
+        {% if p.thumb %}<img src="{{ p.thumb|upl }}" alt="Screenshot of {{ p.title }}" loading="lazy">{% else %}{% if p.is_sample %}<span class="badge">Sample slot</span>{% endif %}<div><i></i><b></b><span></span><span style="width:60%"></span></div>{% endif %}
+      </div>
+      <h3>{{ p.title }}</h3>
+      {% if p.description %}<p class="desc">{{ p.description }}</p>{% endif %}
+      <p class="actions">{% if p.url %}<a class="btn dk small" href="{{ p.url }}" target="_blank" rel="noopener">View Website</a>{% else %}<span class="btn dis small" aria-disabled="true">Link coming soon</span>{% endif %}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div></section>
+{% endif %}
+
+<section id="web-packages"><div class="wrap">
+  <div class="sec-head rv"><h2>Find the Right Website for Your Business</h2><p>Pick a size now. We can adjust it to fit.</p></div>
+  {% if pkgs %}<div class="pk">{% for p in pkgs %}{{ package_card(p) }}{% endfor %}</div>{% endif %}
+  {% if S.web_note %}<p class="fine">{{ S.web_note }}</p>{% endif %}
+</div></section>
+{{ cta_band('Ready for Your Website?') }}
+{% endblock %}

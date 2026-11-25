@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "_m.html" import cta_band with context %}
+{% block title %}Contact | Bansuri Studio{% endblock %}
+{% block desc %}Tell Bansuri Studio about your project. Message us on WhatsApp or fill in the short form.{% endblock %}
+{% block main %}
+<section class="phead has-grid"><div class="wrap">
+  <h1>Let’s Create Your First Reel.</h1>
+  <p>Have an idea for your brand? Tell us about it and we’ll get back to you.</p>
+  <div class="contact-grid">
+    <div>
+      <div class="sent" id="sent"{% if not sent %} hidden{% endif %} role="status">
+        <svg class="check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l8 8 14-16"/></svg>
+        <h2>Thanks, <span id="sentName">{{ sent.name if sent }}</span>.</h2>
+        <p>We’ve received your enquiry and will get back to you soon.{% if wa_on %} For a faster reply, continue on WhatsApp.{% endif %}</p>
+        <div class="row"><a class="btn dk" id="sentWa" href="{{ sent.wa if sent else '#' }}" target="_blank" rel="noopener"{% if not (wa_on or (sent and sent.whatsapp)) %} hidden{% endif %}>Continue on WhatsApp</a><a class="btn ghost" href="{{ url_for('contact') }}">Send another enquiry</a></div>
+      </div>
+      <form class="form" id="startForm" method="post" action="{{ url_for('contact') }}" novalidate{% if sent %} hidden{% endif %}>
+        <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+        <div class="hp" aria-hidden="true"><label>Company<input name="company" tabindex="-1" autocomplete="off"></label></div>
+        <div><label for="n">Your name</label><input id="n" name="name" autocomplete="name" maxlength="80" value="{{ form.name }}"{% if errors.name %} aria-invalid="true"{% endif %}><div class="err" data-err="name">{{ errors.name }}</div></div>
+        <div><label for="p">Phone or WhatsApp number</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" value="{{ form.phone }}"{% if errors.phone %} aria-invalid="true"{% endif %}><div class="err" data-err="phone">{{ errors.phone }}</div></div>
+        <div><label for="s">What do you need?</label><select id="s" name="service">{% for s in SERVICES %}<option{% if s == form.service %} selected{% endif %}>{{ s }}</option>{% endfor %}</select><div class="err" data-err="service">{{ errors.service }}</div></div>
+        <div><label for="m">Tell us about your project</label><textarea id="m" name="message" maxlength="1000"{% if errors.message %} aria-invalid="true"{% endif %}>{{ form.message }}</textarea><div class="err" data-err="message">{{ errors.message }}</div></div>
+        <button class="btn" type="submit">Send Enquiry</button>
+      </form>
+    </div>
+    <aside class="cinfo">
+      <h2>Prefer to chat?</h2>
+      <p>Message us on WhatsApp for the quickest reply.</p>
+      <ul class="clist">
+        <li><small>WhatsApp</small><a href="{{ wa('I’d like to start a project.') }}"{% if wa_on %} target="_blank" rel="noopener"{% endif %}>{{ S.phone_display or 'Chat with us' }}</a></li>
+        {% if S.instagram_url %}<li><small>Instagram</small><a href="{{ S.instagram_url }}" target="_blank" rel="noopener">{{ S.instagram_handle or S.instagram_url }}</a></li>{% endif %}
+        {% if S.email %}<li><small>Email</small><a href="mailto:{{ S.email }}">{{ S.email }}</a></li>{% endif %}
+        {% if S.address %}<li><small>Location</small><span>{{ S.address }}</span></li>{% endif %}
+      </ul>
+    </aside>
+  </div>
+</div></section>
+
+{% if faqs %}
+<section id="faq" style="background:var(--surface)"><div class="wrap">
+  <div class="sec-head rv"><h2>Frequently Asked Questions</h2></div>
+  <div class="faq">{% for f in faqs %}<details><summary>{{ f.question }}</summary><p>{{ f.answer }}</p></details>{% endfor %}</div>
+</div></section>
+{% endif %}
+{% endblock %}

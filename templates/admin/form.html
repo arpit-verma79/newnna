@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% from "admin/_fields.html" import field %}
+{% block title %}{{ 'Edit' if row else 'Add' }} {{ E.singular }}{% endblock %}
+{% block body %}
+<p class="crumb"><a href="{{ url_for('admin_list', ent=ent) }}">← {{ E.label }}</a></p>
+<h1>{{ 'Edit' if row else 'Add' }} {{ E.singular }}</h1>
+<form class="panel narrow" method="post" enctype="multipart/form-data" data-upload>
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  {% for f in E.fields %}{{ field(f, values[f.name], errors.get(f.name)) }}{% endfor %}
+  <div class="actions"><button class="btn" type="submit">Save</button><a class="btn ghost" href="{{ url_for('admin_list', ent=ent) }}">Cancel</a></div>
+  <p class="hint upl-note" hidden>Uploading. Large videos can take a minute, please wait.</p>
+</form>
+{% endblock %}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}Bansuri Studio | Reels, Promo Videos and Websites in Pilibhit{% endblock %}</title>
+<meta name="description" content="{% block desc %}Bansuri Studio creates Instagram reels, promotional videos, photography and websites for local businesses in Pilibhit. Your Vision. Our Creativity.{% endblock %}">
+<meta name="theme-color" content="#183D2E">
+<script src="{{ asset('js/init.js') }}"></script>
+<link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="Scroll-stopping reels, brand stories and websites that help local businesses grow.">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+</head>
+<body data-wa="{{ S.whatsapp|digits }}">
+<div class="progress" aria-hidden="true"><i></i></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i1" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></symbol>
+<symbol id="i2" viewBox="0 0 24 24"><path d="M3 11v2l12 5V6L3 11z"/><path d="M19 9v6"/></symbol>
+<symbol id="i3" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/></symbol>
+<symbol id="i4" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z"/></symbol>
+<symbol id="i5" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></symbol>
+<symbol id="i6" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></symbol>
+</defs></svg>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="{{ url_for('home') }}" aria-label="Bansuri Studio home"><img src="{{ asset('img/logo.png') }}" alt="" width="46" height="46">BANSURI STUDIO</a>
+  <button class="tg" id="tg" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <nav id="nav" aria-label="Main">
+    {% for key, label in [('work','Work'),('packages','Packages'),('websites','Websites'),('about','About')] %}
+    <a href="{{ url_for(key) }}"{% if active == key %} aria-current="page"{% endif %}>{{ label }}</a>
+    {% endfor %}
+    <a class="btn" href="{{ url_for('contact') }}">Contact</a>
+  </nav>
+</div></header>
+
+<main id="top">
+{% block main %}{% endblock %}
+</main>
+
+<a class="wa" href="{{ wa('I’d like to know more about your services.') }}"{% if wa_on %} target="_blank" rel="noopener"{% endif %} aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg></a>
+
+<dialog id="rm" aria-labelledby="mt"><div class="stage" id="ms"></div><div class="mb"><h3 id="mt"></h3><p id="mx"></p><div class="row" style="justify-content:flex-start"><a class="btn dk" href="{{ url_for('contact') }}" id="mc">Get a reel like this</a><button class="btn ghost" type="button" id="mx2">Close</button></div></div></dialog>
+
+<footer class="ft"><div class="wrap">
+  <div class="fg">
+    <div><img src="{{ asset('img/logo.png') }}" alt="" width="72" height="72" style="border-radius:50%;display:block;margin-bottom:.7rem"><div class="logo" style="color:#F5F0E3">BANSURI STUDIO</div><p style="margin-top:.6rem">Your Vision. Our Creativity.</p></div>
+    <div><h4>Pages</h4><a href="{{ url_for('work') }}">Work</a><a href="{{ url_for('packages') }}">Packages</a><a href="{{ url_for('websites') }}">Websites</a><a href="{{ url_for('about') }}">About</a><a href="{{ url_for('contact') }}">Contact and FAQ</a></div>
+    <div><h4>Follow</h4>{% if S.instagram_url %}<a href="{{ S.instagram_url }}" target="_blank" rel="noopener">Instagram{% if S.instagram_handle %} {{ S.instagram_handle }}{% endif %}</a>{% endif %}</div>
+    <div><h4>Contact</h4>
+      <a href="{{ wa('') }}"{% if wa_on %} target="_blank" rel="noopener"{% endif %}>WhatsApp{% if S.phone_display %}: {{ S.phone_display }}{% endif %}</a>
+      {% if S.email %}<a href="mailto:{{ S.email }}">{{ S.email }}</a>{% endif %}
+      {% if S.address %}<span>{{ S.address }}</span>{% endif %}</div>
+  </div>
+  <div class="cp">© {{ now_year }} Bansuri Studio. Founded by Arpit Sharma and Anshu Verma.</div>
+</div></footer>
+<script src="{{ asset('js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{% block title %}Admin{% endblock %} | Bansuri Studio</title>
+<link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+</head>
+<body>
+{% if is_admin %}
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="{{ url_for('admin_home') }}"><img src="{{ asset('img/logo.png') }}" alt="" width="36" height="36"><span>Bansuri Studio</span></a>
+    <nav aria-label="Admin">
+      {% set items = [('home','Dashboard','admin_home',{}),('enquiries','Enquiries','admin_enquiries',{}),
+        ('work','Work','admin_list',{'ent':'work'}),('reviews','Reviews','admin_list',{'ent':'reviews'}),
+        ('packages','Packages','admin_list',{'ent':'packages'}),('projects','Website projects','admin_list',{'ent':'projects'}),
+        ('faqs','FAQs','admin_list',{'ent':'faqs'}),('settings','Settings','admin_settings',{}),('password','Password','admin_password',{})] %}
+      {% for key, label, ep, kw in items %}<a href="{{ url_for(ep, **kw) }}"{% if nav == key %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
+    </nav>
+    <div class="side-foot">
+      <a href="{{ url_for('home') }}" target="_blank" rel="noopener">View website</a>
+      <form method="post" action="{{ url_for('admin_logout') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="link" type="submit">Log out</button></form>
+    </div>
+  </aside>
+  <main class="main">
+    {% with msgs = get_flashed_messages(with_categories=true) %}{% for cat, msg in msgs %}<div class="flash {{ cat }}" role="status">{{ msg }}</div>{% endfor %}{% endwith %}
+    {% block body %}{% endblock %}
+  </main>
+</div>
+{% else %}
+<main class="auth">{% block auth %}{% endblock %}</main>
+{% endif %}
+<script src="{{ asset('js/admin.js') }}"></script>
+</body>
+</html>

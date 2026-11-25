@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% from "_m.html" import package_card, page_head, cta_band with context %}
+{% block title %}Reel and Video Packages | Bansuri Studio{% endblock %}
+{% block desc %}Reel and video packages for local businesses in Pilibhit, starting at ₹249 per reel.{% endblock %}
+{% block main %}
+{{ page_head('Content That Makes Your Brand Stand Out', 'Reel and video packages for local businesses.') }}
+<section><div class="wrap">
+  {% if pkgs %}<div class="pk">{% for p in pkgs %}{{ package_card(p) }}{% endfor %}</div>{% else %}<p class="empty-note">Packages are being updated. Message us for a quote.</p>{% endif %}
+  {% if S.reel_note %}<p class="fine">{{ S.reel_note }}</p>{% endif %}
+  <div class="row head-row"><a class="btn ghost" style="color:var(--ink)" href="{{ url_for('contact') }}">Need something different? Ask for a quote</a></div>
+</div></section>
+{{ cta_band() }}
+{% endblock %}

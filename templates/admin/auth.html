@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Set your password' if mode == 'setup' else 'Log in' }}{% endblock %}
+{% block auth %}
+<form class="authcard" method="post">
+  <img src="{{ asset('img/logo.png') }}" alt="" width="64" height="64">
+  <h1>{{ 'Create your admin password' if mode == 'setup' else 'Admin log in' }}</h1>
+  {% if mode == 'setup' %}<p class="muted">This is the first visit. Choose a password you don’t use anywhere else. You’ll use it to manage the website.</p>{% endif %}
+  {% if err %}<div class="flash error" role="alert">{{ err }}</div>{% endif %}
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <label for="pw">Password</label>
+  <input id="pw" name="password" type="password" autocomplete="{{ 'new-password' if mode == 'setup' else 'current-password' }}" required autofocus>
+  {% if mode == 'setup' %}<label for="pw2">Repeat password</label><input id="pw2" name="password2" type="password" autocomplete="new-password" required>{% endif %}
+  <button class="btn" type="submit">{{ 'Save password' if mode == 'setup' else 'Log in' }}</button>
+</form>
+{% endblock %}

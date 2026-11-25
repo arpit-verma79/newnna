@@ -1,0 +1,42 @@
+{% macro work_card(w) -%}
+<article class="it rv" data-c="{{ w.category }}" data-src="{{ w.video|upl }}">
+  <div class="th" style="--c:{{ w.color }}{% if w.thumb %};background-image:url({{ w.thumb|upl }}){% endif %}">{% if w.is_sample %}<span class="badge">Sample slot</span>{% endif %}<span class="pb"></span></div>
+  <h3>{{ w.title }}</h3><div class="tag">{{ w.category }}</div>
+</article>
+{%- endmacro %}
+
+{% macro package_card(p) -%}
+<div class="pkg rv{% if p.highlight %} best{% endif %}">
+  <h3>{{ p.name }}</h3>
+  <div class="price">{{ p.price }}{% if p.unit %}<small> {{ p.unit }}</small>{% endif %}</div>
+  <ul>{% for line in p.features|lines %}<li>{{ line }}</li>{% endfor %}</ul>
+  <a class="btn{% if not p.highlight %} dk{% endif %}" href="{{ url_for('contact', service=('Website development' if p.kind == 'website' else 'Reels and videos'), msg=p.wa_message) }}">{{ 'Enquire now' if p.kind == 'website' else 'Choose ' ~ p.name }}</a>
+</div>
+{%- endmacro %}
+
+{% macro page_head(title, sub) -%}
+<section class="phead"><div class="wrap">
+  <h1>{{ title }}</h1>
+  {% if sub %}<p>{{ sub }}</p>{% endif %}
+  <div class="six" aria-hidden="true">{% for n in range(6) %}<i style="--n:{{ n }}"></i>{% endfor %}</div>
+</div></section>
+{%- endmacro %}
+
+{% macro cta_band(title='Let’s Create Your First Reel.') -%}
+<section class="band cta sc"><div class="wrap">
+  <h2>{{ title }}</h2>
+  <p class="sub">Have an idea for your brand? Let’s turn it into content that gets noticed.</p>
+  <div class="row"><a class="btn" href="{{ url_for('contact') }}">Start Your Project</a><a class="btn ghost" href="{{ wa('I’d like to start a project.') }}"{% if wa_on %} target="_blank" rel="noopener"{% endif %}>Chat on WhatsApp</a></div>
+</div></section>
+{%- endmacro %}
+
+{% macro ig_strip() -%}
+{% if S.instagram_url %}
+<div class="igs"><div class="wrap">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg>
+  <h2>A Little More Creativity on Instagram</h2>
+  <p>{% if S.instagram_handle %}{{ S.instagram_handle }} · {% endif %}Behind the scenes, latest projects and more creative work.</p>
+  <a class="btn dk" href="{{ S.instagram_url }}" target="_blank" rel="noopener">Follow Us on Instagram</a>
+</div></div>
+{% endif %}
+{%- endmacro %}

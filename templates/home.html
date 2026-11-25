@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% from "_m.html" import work_card, cta_band, ig_strip with context %}
+{% block main %}
+<section class="hero"><div class="wrap">
+  <div class="eyebrow">Your Vision. Our Creativity.</div>
+  <h1 class="hl"><span style="--i:0">One Flute.</span> <span style="--i:1">Six Notes.</span> <span style="--i:2">Endless Possibilities.</span></h1>
+  <p class="lead">We turn ideas into scroll-stopping content, powerful brand stories and websites that help businesses grow.</p>
+  <div class="row"><a class="btn" href="{{ url_for('work') }}">Explore Our Work</a><a class="btn ghost" href="{{ url_for('contact') }}">Let’s Work Together</a></div>
+  <div class="flute" aria-hidden="true">
+    <img src="{{ asset('img/flute.png') }}" alt="" width="640" height="292">
+    {% for x in ['55.8%','61.1%','66.4%','71.7%','77%','82.3%'] %}<i style="--x:{{ x }};--n:{{ loop.index0 }}"></i>{% endfor %}
+  </div>
+</div></section>
+
+<section id="services"><div class="wrap">
+  <div class="sec-head rv"><h2>One Flute. Six Notes.</h2><p>Everything your brand needs to be seen, remembered and chosen.</p></div>
+  <div class="grid">
+    <div class="card rv"><div class="ic"><svg><use href="#i1"/></svg></div><h3>Reel &amp; Video Editing</h3><p>Sharp, trend-aware edits with music and captions, ready to post.</p><a class="more" href="{{ url_for('work') }}">See our work</a></div>
+    <div class="card rv"><div class="ic"><svg><use href="#i2"/></svg></div><h3>Promotional Videos</h3><p>Short videos for launches, offers and festivals that get people to act.</p><a class="more" href="{{ url_for('work') }}">See our work</a></div>
+    <div class="card rv"><div class="ic"><svg><use href="#i3"/></svg></div><h3>Product Photography</h3><p>Clean, attractive photos of your products, menu or space.</p><a class="more" href="{{ url_for('work') }}">See our work</a></div>
+    <div class="card rv"><div class="ic"><svg><use href="#i4"/></svg></div><h3>Social Media Management</h3><p>Content planning and posting so your pages stay active and on brand.</p><a class="more" href="{{ url_for('contact', service='Social media management') }}">Ask about this</a></div>
+    <div class="card rv"><div class="ic"><svg><use href="#i5"/></svg></div><h3>Digital Marketing</h3><p>Meta Ads and promotion that reach the right local customers. Ad spend is paid by the client.</p><a class="more" href="{{ url_for('contact', service='Digital marketing') }}">Ask about this</a></div>
+    <div class="card rv"><div class="ic"><svg><use href="#i6"/></svg></div><h3>Website Development</h3><p>Fast, mobile-friendly websites with WhatsApp built in.</p><a class="more" href="{{ url_for('websites') }}">Explore websites</a></div>
+  </div>
+</div></section>
+
+{% if work %}
+<section style="background:var(--surface)"><div class="wrap">
+  <div class="sec-head rv"><h2>Recent Work</h2><p>Hover or tap a card to preview.</p></div>
+  <div class="work">{% for w in work %}{{ work_card(w) }}{% endfor %}</div>
+  <div class="row head-row"><a class="btn dk" href="{{ url_for('work') }}">See All Our Work</a></div>
+</div></section>
+{% endif %}
+
+<section class="band" id="process"><div class="wrap">
+  <div class="sec-head rv"><h2>From Idea to Post in Four Steps</h2><p>A simple process built around your brand.</p></div>
+  <ol class="steps">
+    <li class="rv"><h3>Understand</h3><p>We understand your brand, goals and audience.</p></li>
+    <li class="rv"><h3>Create</h3><p>We plan, shoot and create engaging content.</p></li>
+    <li class="rv"><h3>Edit</h3><p>We edit, refine and bring your vision to life.</p></li>
+    <li class="rv"><h3>Publish</h3><p>We deliver content ready to publish and grow.</p></li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head rv"><h2>Simple Packages, Clear Prices</h2><p>Pick a size that fits your business now. We can adjust it as you grow.</p></div>
+  <div class="teaser">
+    <div class="card rv"><h3>Reel and video packages</h3><p>From a single edited reel to a full month of content with a shoot day.</p><a class="btn dk" href="{{ url_for('packages') }}">See Packages</a></div>
+    <div class="card rv"><h3>Websites</h3><p>One-page sites, business sites and catalogues with WhatsApp built in.</p><a class="btn dk" href="{{ url_for('websites') }}">See Websites</a></div>
+  </div>
+</div></section>
+
+{% if reviews %}
+<section id="reviews" style="background:var(--surface)"><div class="wrap">
+  <div class="sec-head rv"><h2>What Clients Say</h2></div>
+  <div class="slider"><div class="track" id="tr" tabindex="0" aria-label="Client reviews, swipe to see more">
+    {% for r in reviews %}<figure class="card"><div class="stars" aria-label="{{ r.stars }} out of 5 stars">{{ '★' * r.stars }}{{ '☆' * (5 - r.stars) }}</div><p>{{ r.text }}</p><div class="who">{{ r.name }}{% if r.role %}<span>{{ r.role }}</span>{% endif %}</div></figure>{% endfor %}
+  </div><div class="dots" id="dots"></div></div>
+  {% if reviews|selectattr('is_sample')|list %}<p class="fine">Sample reviews. Real client feedback will replace these soon.</p>{% endif %}
+</div></section>
+{% endif %}
+
+{{ ig_strip() }}
+{{ cta_band() }}
+{% endblock %}

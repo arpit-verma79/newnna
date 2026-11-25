@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_m.html" import page_head, cta_band, ig_strip with context %}
+{% block title %}About | Bansuri Studio{% endblock %}
+{% block desc %}Bansuri Studio was started in Pilibhit by Arpit Sharma and Anshu Verma to help local businesses tell their story online.{% endblock %}
+{% block main %}
+{{ page_head('Two People Behind Bansuri Studio', 'A small studio in ' ~ (S.address or 'Pilibhit') ~ '.') }}
+<section><div class="wrap">
+  <div class="team rv">
+    <div><div class="av" aria-hidden="true">AS</div><h3>Arpit Sharma</h3><p>Co-Founder</p></div>
+    <div><div class="av" aria-hidden="true">AV</div><h3>Anshu Verma</h3><p>Co-Founder</p></div>
+  </div>
+  <p class="about rv">We started Bansuri Studio with a simple belief: every local business has a story worth telling. We love creating content, and we’re committed to helping businesses build a strong and lasting digital presence.</p>
+</div></section>
+{{ ig_strip() }}
+{{ cta_band() }}
+{% endblock %}

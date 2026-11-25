@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_m.html" import work_card, page_head, cta_band, ig_strip with context %}
+{% block title %}Our Work | Bansuri Studio{% endblock %}
+{% block desc %}Reels, promotional videos, photography and websites made by Bansuri Studio for local businesses in Pilibhit.{% endblock %}
+{% block main %}
+{{ page_head('Our Work', 'Reels, promotions, photography and websites for local businesses. Hover or tap a card to preview.') }}
+<section><div class="wrap">
+  {% if items %}
+  {% if cats|length > 1 %}
+  <div class="chips" role="group" aria-label="Filter work">
+    <button class="chip" type="button" data-f="all" aria-pressed="true">All</button>{% for c in cats %}<button class="chip" type="button" data-f="{{ c }}" aria-pressed="false">{{ c }}</button>{% endfor %}
+  </div>
+  {% endif %}
+  <div class="work">{% for w in items %}{{ work_card(w) }}{% endfor %}</div>
+  {% if items|selectattr('is_sample')|list %}<p class="fine">Some cards are placeholder slots that will be replaced with real projects.</p>{% endif %}
+  {% else %}
+  <p class="empty-note">New work is on its way. Follow us on Instagram to see it first.</p>
+  {% endif %}
+  {% if S.instagram_url %}<div class="row head-row"><a class="btn dk" href="{{ S.instagram_url }}" target="_blank" rel="noopener">More of our work: {{ S.instagram_handle or 'Instagram' }}</a></div>{% endif %}
+</div></section>
+{{ cta_band() }}
+{% endblock %}

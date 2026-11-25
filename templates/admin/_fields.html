@@ -1,0 +1,21 @@
+{% macro field(f, value, error, row=None) %}
+{% set n = f.name %}
+{% if f.type == 'bool' %}
+<div class="fld check"><label><input type="checkbox" name="{{ n }}" value="1"{% if value %} checked{% endif %}> {{ f.label }}</label>{% if f.hint %}<p class="hint">{{ f.hint }}</p>{% endif %}</div>
+{% else %}
+<div class="fld">
+  <label for="f_{{ n }}">{{ f.label }}{% if f.required %} <span class="req">(required)</span>{% endif %}</label>
+  {% if f.type == 'textarea' %}<textarea id="f_{{ n }}" name="{{ n }}" rows="{{ f.rows or 4 }}"{% if error %} aria-invalid="true"{% endif %}>{{ value }}</textarea>
+  {% elif f.type == 'select' %}<select id="f_{{ n }}" name="{{ n }}">{% for v, l in f.choices %}<option value="{{ v }}"{% if v|string == value|string %} selected{% endif %}>{{ l }}</option>{% endfor %}</select>
+  {% elif f.type == 'color' %}<input id="f_{{ n }}" name="{{ n }}" type="color" value="{{ value or f.default }}" class="colorin">
+  {% elif f.type in ('video', 'image') %}
+    {% if value %}<div class="cur">{% if f.type == 'image' %}<img class="prev" src="{{ value|upl }}" alt="">{% else %}<video class="prev" src="{{ value|upl }}" controls muted preload="metadata"></video>{% endif %}
+    <label class="inl"><input type="checkbox" name="remove_{{ n }}" value="1"> Remove this {{ f.type }}</label></div>{% endif %}
+    <input id="f_{{ n }}" name="{{ n }}" type="file" accept="{{ 'video/mp4,video/webm' if f.type == 'video' else 'image/jpeg,image/png,image/webp' }}" data-preview="{{ f.type }}">
+    <div class="newprev"></div>
+  {% else %}<input id="f_{{ n }}" name="{{ n }}" type="{{ 'tel' if f.type == 'phone' else ('email' if f.type == 'email' else ('url' if f.type == 'url' else 'text')) }}" value="{{ value }}"{% if error %} aria-invalid="true"{% endif %}>{% endif %}
+  {% if f.hint %}<p class="hint">{{ f.hint }}</p>{% endif %}
+  {% if error %}<p class="err" role="alert">{{ error }}</p>{% endif %}
+</div>
+{% endif %}
+{% endmacro %}
